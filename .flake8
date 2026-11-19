@@ -1,0 +1,10 @@
+[flake8]
+max-line-length = 88
+# E203/W503/E701: conflict with black's formatting style.
+# E501: black owns line length; remaining long lines are string literals
+#       (prompts, tool descriptions) that black intentionally doesn't split.
+extend-ignore = E203, W503, E701, E501
+# app.py sets a warnings filter before importing libraries that emit them.
+per-file-ignores =
+    backend/app.py: E402
+exclude = .git, __pycache__, .venv, .trees, chroma_db

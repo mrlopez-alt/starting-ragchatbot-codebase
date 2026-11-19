@@ -54,3 +54,27 @@ The application will be available at:
 - Web Interface: `http://localhost:8000`
 - API Documentation: `http://localhost:8000/docs`
 
+
+## Development
+
+### Code Quality Tools
+
+Dev dependencies (installed by `uv sync`):
+
+- **black**: automatic code formatting (line length 88)
+- **isort**: import sorting (`black`-compatible profile)
+- **flake8**: linting (unused imports, undefined names, etc.)
+
+Configuration lives in `pyproject.toml` (black, isort) and `.flake8`.
+
+### Quality Scripts
+
+```bash
+# Auto-format the code (isort + black)
+./scripts/format.sh
+
+# Run all checks without modifying files (exits non-zero on failure)
+./scripts/quality.sh
+```
+
+Run `./scripts/quality.sh` before committing.
