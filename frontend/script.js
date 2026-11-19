@@ -16,10 +16,54 @@ document.addEventListener('DOMContentLoaded', () => {
     totalCourses = document.getElementById('totalCourses');
     courseTitles = document.getElementById('courseTitles');
     
+    setupThemeToggle();
     setupEventListeners();
     createNewSession();
     loadCourseStats();
 });
+
+// Theme Toggle
+function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+}
+
+function updateThemeToggleLabel(theme) {
+    const toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
+    const label = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
+    toggle.setAttribute('aria-label', label);
+    toggle.setAttribute('title', label);
+    toggle.setAttribute('aria-pressed', String(theme === 'light'));
+}
+
+let themeTransitionTimer = null;
+
+function setTheme(theme) {
+    const root = document.documentElement;
+    // Enable smooth color transitions only while switching
+    root.classList.add('theme-transition');
+    root.setAttribute('data-theme', theme);
+    updateThemeToggleLabel(theme);
+    try {
+        localStorage.setItem('theme', theme);
+    } catch (e) {
+        // Storage unavailable (private mode, blocked); theme still applies for this page
+    }
+    clearTimeout(themeTransitionTimer);
+    themeTransitionTimer = setTimeout(() => root.classList.remove('theme-transition'), 350);
+}
+
+function toggleTheme() {
+    setTheme(getCurrentTheme() === 'light' ? 'dark' : 'light');
+}
+
+function setupThemeToggle() {
+    const toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
+    // Native <button>: focusable via Tab, activates on Enter/Space
+    toggle.addEventListener('click', toggleTheme);
+    updateThemeToggleLabel(getCurrentTheme());
+}
 
 // Event Listeners
 function setupEventListeners() {
