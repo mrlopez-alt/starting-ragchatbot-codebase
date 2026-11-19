@@ -19,6 +19,8 @@ dev = [
     "black>=26.10.1",
     "flake8>=7.5.0",
     "isort>=9.0.2",
+    "pytest>=8.0",
+    "httpx>=0.27",
 ]
 
 [tool.black]
@@ -37,3 +39,15 @@ profile = "black"
 line_length = 88
 src_paths = ["backend"]
 skip_glob = [".venv/*", ".trees/*", "chroma_db/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+pythonpath = ["backend"]
+addopts = "-v --strict-markers --tb=short"
+markers = [
+    "api: FastAPI endpoint tests",
+    "unit: isolated unit tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
