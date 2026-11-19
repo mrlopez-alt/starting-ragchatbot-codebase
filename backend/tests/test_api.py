@@ -1,6 +1,6 @@
 """API endpoint tests for /api/query, /api/courses and the static root."""
-import pytest
 
+import pytest
 from conftest import (
     INDEX_HTML,
     SAMPLE_ANSWER,
@@ -23,7 +23,9 @@ class TestQueryEndpoint:
             "session_id": SAMPLE_SESSION_ID,
         }
         mock_rag_system.session_manager.create_session.assert_called_once()
-        mock_rag_system.query.assert_called_once_with("What is computer use?", SAMPLE_SESSION_ID)
+        mock_rag_system.query.assert_called_once_with(
+            "What is computer use?", SAMPLE_SESSION_ID
+        )
 
     def test_query_with_existing_session_reuses_it(self, client, mock_rag_system):
         response = client.post(
@@ -56,7 +58,9 @@ class TestQueryEndpoint:
 
     def test_query_invalid_json_returns_422(self, client):
         response = client.post(
-            "/api/query", content="not json", headers={"Content-Type": "application/json"}
+            "/api/query",
+            content="not json",
+            headers={"Content-Type": "application/json"},
         )
 
         assert response.status_code == 422
@@ -134,7 +138,9 @@ class TestRootEndpoint:
 
         assert response.status_code == 404
 
-    def test_api_routes_take_precedence_over_static_mount(self, client, mock_rag_system):
+    def test_api_routes_take_precedence_over_static_mount(
+        self, client, mock_rag_system
+    ):
         response = client.get("/api/courses")
 
         assert response.status_code == 200

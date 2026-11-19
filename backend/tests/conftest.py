@@ -6,6 +6,7 @@ is slow and fails when the frontend directory isn't reachable. Instead,
 `create_test_app` builds an app with the same API contract as app.py, wired to
 a mocked RAG system and a temporary static directory.
 """
+
 from typing import List, Optional
 from unittest.mock import MagicMock
 
@@ -15,20 +16,24 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
 
-
 # --- Test data -------------------------------------------------------------
 
 SAMPLE_COURSE_TITLES = [
     "Building Towards Computer Use with Anthropic",
     "MCP: Build Rich-Context AI Apps with Anthropic",
 ]
-SAMPLE_ANSWER = "Computer use lets Claude operate a desktop through screenshots and actions."
+SAMPLE_ANSWER = (
+    "Computer use lets Claude operate a desktop through screenshots and actions."
+)
 SAMPLE_SOURCES = ["Building Towards Computer Use with Anthropic - Lesson 1"]
 SAMPLE_SESSION_ID = "session_1"
-INDEX_HTML = "<!DOCTYPE html><html><body><h1>Course Materials Assistant</h1></body></html>"
+INDEX_HTML = (
+    "<!DOCTYPE html><html><body><h1>Course Materials Assistant</h1></body></html>"
+)
 
 
 # --- Request/response models (mirror backend/app.py) -----------------------
+
 
 class QueryRequest(BaseModel):
     query: str
@@ -79,6 +84,7 @@ def create_test_app(rag_system, static_dir: Optional[str] = None) -> FastAPI:
 
 
 # --- Fixtures --------------------------------------------------------------
+
 
 @pytest.fixture
 def mock_rag_system():
